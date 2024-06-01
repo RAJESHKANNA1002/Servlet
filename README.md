@@ -1,1 +1,1 @@
-# Servlet
+It consists of Only JSP file 
