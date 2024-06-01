@@ -1,0 +1,39 @@
+package Controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.StudentDao;
+import dto.Student;
+
+@WebServlet("/view")
+public class ViewServlet extends HttpServlet{
+
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		//Creating one Object to access all method like getallstudent,deletestudent,fecth by id or email
+		
+		StudentDao dao=new StudentDao();
+		
+		
+		//access that getallstudnt and store all data into a object of list  
+		
+		List<Student> list=dao.getAllStudent();
+		
+		
+		//sent to view page 
+		req.setAttribute("list", list);
+		
+		req.getRequestDispatcher("view.jsp").forward(req, resp);
+	
+	}
+	
+}
