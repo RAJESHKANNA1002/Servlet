@@ -1,0 +1,25 @@
+<%@page import="dto.Student"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<%Student s =(Student) request.getAttribute("s"); %>
+
+<form action="update">
+		<input type="number"    name="id" 		placeholder="ID" 		value="<%=	s.getId() 		 %>" readonly="readonly">	<br><br>
+ 		<input type="text" 		name="name" 	placeholder="NAME" 		value="<%=	s.getName() 	 %>">		   		 	<br><br>
+		<input type="email" 	name="email" 	placeholder="EMAIL" 	value="<%=	s.getEmail()	 %>">			 	<br><br>
+		<input type="password" 	name="pass" 	placeholder="PASSWORD" 	value="<%=	s.getPassword()	 %>"> 				<br><br>
+		<input type="number" 	name="marks" 	placeholder="MARKS" 	value="<%=	s.getMarks() 	 %>"> 			 	<br><br>
+	<input type="submit" >
+
+
+</form>
+</body>
+</html>
