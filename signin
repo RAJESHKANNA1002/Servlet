@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="save" method="post">
+
+<input type="number" name="id" placeholder="ID"><br><br>
+<input type="text" name="name" placeholder="NAME"><br><br>
+<input type="email" name="email" placeholder="EMAIL"><br><br>
+<input type="password" name="pass" placeholder="PASSWORD"><br><br>
+<input type="number" name="marks" placeholder="MARKS"><br><br>
+
+
+<input type="submit">
+<input type="reset">
+
+</form>
+</body>
+</html>
