@@ -1,0 +1,222 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.mysql.cj.protocol.Resultset;
+
+import dto.Student;
+
+public class StudentDao {
+
+	static String className = "com.mysql.cj.jdbc.Driver";
+	static String dburl = "jdbc:mysql://localhost:3306/student_db?user=root&password=root";
+	static  Connection c=null;
+
+	public void saveStudent(Student s) {						// to save student object to the database
+
+		try {
+
+																// Load the Driver
+
+			Class.forName(className);
+
+																// Establish the Connection
+
+			 c = DriverManager.getConnection(dburl);
+
+																// Dynamic Query using placeHolder
+
+			PreparedStatement ps = c.prepareStatement("insert into student values(?,?,?,?,?)");
+
+		   	ps.setInt( 1, s.getId());                            // getting id from Student Object
+			ps.setString(2, s.getName()); 						// getting Name from Student Object
+			ps.setString(3, s.getEmail());      				// getting Email from Student Object
+			ps.setDouble(4, s.getMarks()); 						// getting Marks from Student Object
+			ps.setString(5, s.getPassword()); 					// getting Password from Student Object
+
+			ps.executeUpdate(); 								// this method is used to update data to database
+
+			c.close(); 											// After Completing Updation Connection will be Closed
+
+		} catch (ClassNotFoundException | SQLException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	public List<Student> getAllStudent() {
+
+		try {
+			Class.forName(className);							// Establish the Connection
+
+			 c = DriverManager.getConnection(dburl);	// Static Query
+
+			Statement s = c.createStatement();					// for executin query
+
+			ResultSet rs = s.executeQuery("select*from student");		// because we can store many objects inside the arraylist for example
+																		// (id,name,pass,marks,email)
+
+			ArrayList<Student> list = new ArrayList<Student>();
+
+																// we are using iterator for know next element is present or not if not present
+																//	 return false else true
+			while (rs.next()) {
+
+																// We create Student Object every data is stored inside the student object then
+																// we add into ArrayList
+				Student st = new Student();
+
+				st.setId(rs.getInt("id"));
+				st.setName(rs.getString("name"));
+				st.setEmail(rs.getString("email"));
+				st.setPassword(rs.getString("pass"));
+				st.setMarks(rs.getDouble("marks"));
+
+				list.add(st);
+			}
+
+			return list;
+
+		} catch (ClassNotFoundException  | SQLException  e) {
+
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void deleteById(int id) {
+
+		try {
+			
+		
+		Class.forName(className);
+
+		 c = DriverManager.getConnection(dburl);
+
+		PreparedStatement ps = c.prepareStatement("delete from student where id=?");
+
+		ps.setInt(1, id);
+
+	    ps.executeUpdate();
+		
+		c.close();
+		
+		System.out.println("Data Deleted ");
+
+		System.out.println("Completed");
+	
+	} catch (ClassNotFoundException  | SQLException  e) {
+		
+		e.printStackTrace();
+	}
+}
+	
+	
+	public void updateStudent(Student s) {
+		
+		try {
+			Class.forName(className);
+			
+			 c=DriverManager.getConnection(dburl);
+			
+			PreparedStatement ps=c.prepareStatement("update student set name=?,email=?,marks=?,pass=? where id=?");
+			
+			ps.setInt(5, s.getId());
+			ps.setString(1,s.getName());
+			ps.setString(2,s.getEmail());
+			ps.setString(3, s.getPassword());
+			ps.setDouble(4, s.getMarks());
+			
+			ps.executeUpdate();
+			
+			c.close();
+			System.out.println("Data Updated");
+			
+		} catch (ClassNotFoundException  | SQLException  e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	
+	public Student fetchByEmail(String email) {
+		
+		try {
+			Class.forName(className);
+			
+			 c=DriverManager.getConnection(dburl);
+			
+			PreparedStatement ps=c.prepareStatement("select*from student where email=?");
+			ps.setString(1, email);
+			
+			ResultSet rs= ps.executeQuery();
+			
+			while(rs.next()) {
+			Student st = new Student();
+
+			st.setId(rs.getInt("id"));
+			st.setName(rs.getString("name"));
+			st.setEmail(rs.getString("email"));
+			st.setPassword(rs.getString("pass"));
+			st.setMarks(rs.getDouble("marks"));
+			
+			return st;
+			}
+			
+			System.out.println("Data Updated");
+			
+		} catch (ClassNotFoundException  | SQLException  e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	public Student fetchById(int id) {
+		
+		try {
+			Class.forName(className);
+			
+			 c=DriverManager.getConnection(dburl);
+			
+			PreparedStatement ps=c.prepareStatement("select*from student where id=?");
+			ps.setInt(1, id);
+			
+			ResultSet rs= ps.executeQuery();
+			
+			while(rs.next()) {
+			Student st = new Student();
+
+			st.setId(rs.getInt("id"));
+			st.setName(rs.getString("name"));
+			st.setEmail(rs.getString("email"));
+			st.setPassword(rs.getString("pass"));
+			st.setMarks(rs.getDouble("marks"));
+			
+			return st;
+			}
+			
+			System.out.println("Data Updated");
+			
+		} catch (ClassNotFoundException  | SQLException  e) {
+			
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+		
+	}
+
