@@ -1,0 +1,51 @@
+package Controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import dao.StudentDao;
+import dto.Student;
+
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		String email = req.getParameter("email");
+		String pass = req.getParameter("pass");
+
+		StudentDao dao = new StudentDao();
+
+		Student s = dao.fetchByEmail(email);
+
+		if (s != null) {
+			if (s.getPassword().equals(pass)) {				//validating user input
+				
+					//Send that login Successful message to login page
+				
+				
+				req.setAttribute("msg", "LOGIN SUCCESSFUL");
+				RequestDispatcher dispatcher=req.getRequestDispatcher("view");
+				dispatcher.forward(req, resp);
+
+			} else {
+				//Send that Incorrect Password message to login page
+				req.setAttribute("msg", "INCORRECT PASSWORD");
+				RequestDispatcher dispatcher=req.getRequestDispatcher("login.jsp");
+				dispatcher.forward(req, resp);
+			}
+		} else {
+			//Send that Email Not found message to login page
+			req.setAttribute("msg", "EMAIL NOT FOUND");
+			RequestDispatcher dispatcher=req.getRequestDispatcher("login.jsp");
+			dispatcher.forward(req, resp);
+		}
+	}
+}
